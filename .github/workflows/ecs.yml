@@ -52,6 +52,11 @@ jobs:
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
           echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
 
+      # baixa o task definition do ECS (arquivo json)
+      - name: Download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition servico-1 --query taskDefinition > task-definition.json
+
       - name: Fill in the new image ID in the Amazon ECS task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
@@ -66,4 +71,4 @@ jobs:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: servico-1
           cluster: cluster-ec2
-          wait-for-service-stability: true
+          wait-for-service-stability: true # isso faz o deploy esperar o serviço ficar estável, ou seja, a action levará uns 8 min;
