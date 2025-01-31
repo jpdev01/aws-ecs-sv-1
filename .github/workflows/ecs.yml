@@ -33,10 +33,14 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
 
+      # login no Elastic Container Registry, para fazer o push da imagem
       - name: Login to Amazon ECR
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v1
 
+      # build da imagem e push no ECR.
+      # O nome do repositório é servico-1
+      # Cria uma imagem usando $image_tag, que é o hash do commit
       - name: Build, tag, and push image to Amazon ECR
         id: build-image
         env:
@@ -61,5 +65,5 @@ jobs:
         with:
           task-definition: ${{ steps.task-def.outputs.task-definition }}
           service: servico-1
-          cluster: ec2
+          cluster: cluster-ec2
           wait-for-service-stability: true
