@@ -19,6 +19,12 @@
       "environmentFiles": [],
       "mountPoints": [],
       "volumesFrom": [],
+      "secrets": [
+        {
+          "name": "USUARIO",
+            "valueFrom": "arn:aws:secretsmanager:us-east-1:724772063667:secret:teste-jBoT89:usuario::"
+        }
+      ],
       "ulimits": [],
       "logConfiguration": {
         "logDriver": "awslogs",
